@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เลขศาสตร์ - ดูดวงออนไลน์</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">ดูดวงออนไลน์</a>
+                <nav class="desktop-nav">
+                    <ul>
+                        <li><a href="thai-astrology.html">โหราศาสตร์ไทย</a></li>
+                        <li><a href="tarot.html">ไพ่ยิปซี</a></li>
+                        <li><a href="numerology.html" class="active">เลขศาสตร์</a></li>
+                        <li><a href="daily.html">ดวงรายวัน</a></li>
+                    </ul>
+                </nav>
+                <div class="theme-toggle">
+                    <button id="theme-toggle-btn">
+                        <i class="fas fa-sun light-icon"></i>
+                        <i class="fas fa-moon dark-icon"></i>
+                    </button>
+                </div>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="mobile-menu">
+        <ul>
+            <li><a href="thai-astrology.html">โหราศาสตร์ไทย</a></li>
+            <li><a href="tarot.html">ไพ่ยิปซี</a></li>
+            <li><a href="numerology.html" class="active">เลขศาสตร์</a></li>
+            <li><a href="daily.html">ดวงรายวัน</a></li>
+        </ul>
+    </div>
+
+    <main>
+        <div class="container">
+            <h1 class="page-title">เลขศาสตร์</h1>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2>วิเคราะห์เลขศาสตร์</h2>
+                    <p>เลือกประเภทข้อมูลที่คุณต้องการวิเคราะห์</p>
+                </div>
+                <div class="card-body">
+                    <div class="tabs">
+                        <div class="tab-header">
+                            <button class="tab-btn active" data-tab="birthdate">วันเกิด</button>
+                            <button class="tab-btn" data-tab="phone">เบอร์โทรศัพท์</button>
+                            <button class="tab-btn" data-tab="id">เลขบัตรประชาชน</button>
+                        </div>
+                        
+                        <div class="tab-content">
+                            <form id="numerology-form">
+                                <div id="birthdate-tab" class="tab-pane active">
+                                    <div class="form-group">
+                                        <label for="birthdate">วันเกิดของคุณ (วว/ดด/ปปปป)</label>
+                                        <input type="date" id="birthdate">
+                                        <p class="form-hint">ตัวอย่าง: 15/08/1990</p>
+                                    </div>
+                                </div>
+                                
+                                <div id="phone-tab" class="tab-pane">
+                                    <div class="form-group">
+                                        <label for="phone">เบอร์โทรศัพท์ของคุณ</label>
+                                        <input type="tel" id="phone" placeholder="0812345678">
+                                        <p class="form-hint">ตัวอย่าง: 0812345678</p>
+                                    </div>
+                                </div>
+                                
+                                <div id="id-tab" class="tab-pane">
+                                    <div class="form-group">
+                                        <label for="idCard">เลขบัตรประชาชนของคุณ</label>
+                                        <input type="text" id="idCard" placeholder="1234567890123">
+                                        <p class="form-hint">ตัวอย่าง: 1234567890123</p>
+                                    </div>
+                                </div>
+                                
+                                <input type="hidden" id="numerology-type" value="birthdate">
+                                <button type="submit" class="btn btn-primary btn-full">วิเคราะห์</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="numerology-result" class="hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>ผลการวิเคราะห์เลขศาสตร์</h2>
+                        <p id="numerology-info"></p>
+                    </div>
+                    <div class="card-body">
+                        <div class="result-section">
+                            <h3 id="numerology-sum"></h3>
+                            <p id="numerology-meaning"></p>
+                            <div class="mt-4">
+                                <p class="font-medium">ลักษณะเด่น:</p>
+                                <ul id="numerology-characteristics" class="list-disc"></ul>
+                            </div>
+                        </div>
+                        
+                        <div id="special-pairs-section" class="result-section hidden">
+                            <h3>คู่เลขพิเศษที่พบ</h3>
+                            <div id="special-pairs" class="special-pairs-grid"></div>
+                        </div>
+                        
+                        <div class="result-section">
+                            <h3>คำแนะนำ</h3>
+                            <p>
+                                เลขศาสตร์เป็นเพียงแนวทางในการเข้าใจตัวเองและชีวิตของคุณ 
+                                คุณสามารถใช้ข้อมูลนี้เพื่อพัฒนาจุดแข็งและปรับปรุงจุดอ่อนของคุณ 
+                                อย่างไรก็ตาม การตัดสินใจในชีวิตขึ้นอยู่กับวิจารณญาณของคุณเอง
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ดูดวงออนไลน์</h3>
+                    <p>
+                        บริการดูดวงออนไลน์แบบครบวงจร ด้วยศาสตร์การดูดวงแบบดั้งเดิม
+                        ไม่ใช้ AI ในการประมวลผลคำทำนาย
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>บริการของเรา</h3>
+                    <ul>
+                        <li><a href="thai-astrology.html">โหราศาสตร์ไทย</a></li>
+                        <li><a href="tarot.html">ไพ่ยิปซี</a></li>
+                        <li><a href="numerology.html">เลขศาสตร์</a></li>
+                        <li><a href="daily.html">ดวงรายวัน/สัปดาห์</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>ลิงก์</h3>
+                    <ul>
+                        <li><a href="#">เกี่ยวกับเรา</a></li>
+                        <li><a href="#">นโยบายความเป็นส่วนตัว</a></li>
+                        <li><a href="#">ข้อกำหนดการใช้งาน</a></li>
+                        <li><a href="#">ติดต่อเรา</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>ติดตามเรา</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-line"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year"></span> ดูดวงออนไลน์. สงวนลิขสิทธิ์.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/numerology.js"></script>
+</body>
+</html>

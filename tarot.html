@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ไพ่ยิปซี - ดูดวงออนไลน์</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">ดูดวงออนไลน์</a>
+                <nav class="desktop-nav">
+                    <ul>
+                        <li><a href="thai-astrology.html">โหราศาสตร์ไทย</a></li>
+                        <li><a href="tarot.html" class="active">ไพ่ยิปซี</a></li>
+                        <li><a href="numerology.html">เลขศาสตร์</a></li>
+                        <li><a href="daily.html">ดวงรายวัน</a></li>
+                    </ul>
+                </nav>
+                <div class="theme-toggle">
+                    <button id="theme-toggle-btn">
+                        <i class="fas fa-sun light-icon"></i>
+                        <i class="fas fa-moon dark-icon"></i>
+                    </button>
+                </div>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="mobile-menu">
+        <ul>
+            <li><a href="thai-astrology.html">โหราศาสตร์ไทย</a></li>
+            <li><a href="tarot.html" class="active">ไพ่ยิปซี</a></li>
+            <li><a href="numerology.html">เลขศาสตร์</a></li>
+            <li><a href="daily.html">ดวงรายวัน</a></li>
+        </ul>
+    </div>
+
+    <main>
+        <div class="container">
+            <h1 class="page-title">ดูดวงด้วยไพ่ยิปซี</h1>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2>เลือกวิธีการดูไพ่</h2>
+                    <p>กรอกคำถามของคุณและเลือกวิธีการดูไพ่ที่คุณต้องการ</p>
+                </div>
+                <div class="card-body">
+                    <form id="tarot-form">
+                        <div class="form-group">
+                            <label for="question">คำถามของคุณ</label>
+                            <input type="text" id="question" placeholder="เช่น ความรักของฉันในอนาคตจะเป็นอย่างไร?" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>เลือกวิธีการดูไพ่</label>
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" id="single" name="spreadType" value="single" checked>
+                                    <label for="single">ไพ่ 1 ใบ (คำตอบง่ายๆ สำหรับคำถามเฉพาะเจาะจง)</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="three" name="spreadType" value="three">
+                                    <label for="three">ไพ่ 3 ใบ (อดีต ปัจจุบัน อนาคต)</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="celtic" name="spreadType" value="celtic">
+                                    <label for="celtic">Celtic Cross (การวิเคราะห์แบบละเอียด 10 ใบ)</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-full">ดูดวง</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div id="tarot-result" class="hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>ผลการทำนาย</h2>
+                        <p id="tarot-question"></p>
+                    </div>
+                    <div class="card-body">
+                        <div id="single-spread" class="tarot-spread hidden">
+                            <!-- Single card spread will be inserted here -->
+                        </div>
+                        
+                        <div id="three-spread" class="tarot-spread hidden">
+                            <!-- Three card spread will be inserted here -->
+                        </div>
+                        
+                        <div id="celtic-spread" class="tarot-spread hidden">
+                            <!-- Celtic Cross spread will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ดูดวงออนไลน์</h3>
+                    <p>
+                        บริการดูดวงออนไลน์แบบครบวงจร ด้วยศาสตร์การดูดวงแบบดั้งเดิม
+                        ไม่ใช้ AI ในการประมวลผลคำทำนาย
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>บริการของเรา</h3>
+                    <ul>
+                        <li><a href="thai-astrology.html">โหราศาสตร์ไทย</a></li>
+                        <li><a href="tarot.html">ไพ่ยิปซี</a></li>
+                        <li><a href="numerology.html">เลขศาสตร์</a></li>
+                        <li><a href="daily.html">ดวงรายวัน/สัปดาห์</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>ลิงก์</h3>
+                    <ul>
+                        <li><a href="#">เกี่ยวกับเรา</a></li>
+                        <li><a href="#">นโยบายความเป็นส่วนตัว</a></li>
+                        <li><a href="#">ข้อกำหนดการใช้งาน</a></li>
+                        <li><a href="#">ติดต่อเรา</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>ติดตามเรา</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-line"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year"></span> ดูดวงออนไลน์. สงวนลิขสิทธิ์.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/tarot.js"></script>
+</body>
+</html>
