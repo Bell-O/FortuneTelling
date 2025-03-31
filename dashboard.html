@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BRIL Token Price Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .dashboard-container {
+            max-width: 1000px;
+            width: 100%;
+            padding: 2rem;
+        }
+        
+        .price-cards {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        @media (min-width: 768px) {
+            .price-cards {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        .price-card {
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            text-align: center;
+        }
+        
+        .price-card.market {
+            background-color: #e3f2fd;
+        }
+        
+        .price-card.buy {
+            background-color: #ffebee;
+        }
+        
+        .price-card.sell {
+            background-color: #e8f5e9;
+        }
+        
+        .price-title {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .price-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .market .price-value {
+            color: #0d47a1;
+        }
+        
+        .buy .price-value {
+            color: #b71c1c;
+        }
+        
+        .sell .price-value {
+            color: #1b5e20;
+        }
+        
+        .chart-container {
+            height: 400px;
+            margin-bottom: 1rem;
+        }
+        
+        .last-updated {
+            text-align: right;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        
+        .back-button {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <div class="dashboard-container">
+            <div class="back-button">
+                <a href="index.html" class="btn btn-outline">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>กลับไปหน้าหลัก</span>
+                </a>
+            </div>
+            
+            <h1 class="title" style="text-align: center; margin-bottom: 2rem;">BRIL Token Price Dashboard</h1>
+            
+            <div class="price-cards">
+                <div class="price-card market">
+                    <h3 class="price-title">ราคาตลาด</h3>
+                    <p id="market-price" class="price-value">กำลังโหลด...</p>
+                </div>
+                
+                <div class="price-card buy">
+                    <h3 class="price-title">ราคารับซื้อ</h3>
+                    <p id="buy-price" class="price-value">กำลังโหลด...</p>
+                </div>
+                
+                <div class="price-card sell">
+                    <h3 class="price-title">ราคาขาย</h3>
+                    <p id="sell-price" class="price-value">กำลังโหลด...</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">BRIL Token Price Chart</h2>
+                    <p class="card-description">ราคาปัจจุบันของ BRIL Token ในสกุลเงินบาท (THB)</p>
+                </div>
+                <div class="card-content">
+                    <div class="chart-container">
+                        <canvas id="priceChart"></canvas>
+                    </div>
+                    <div class="last-updated">
+                        อัปเดตล่าสุด: <span id="last-updated">กำลังโหลด...</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="alert alert-info" style="margin-top: 1.5rem;">
+                <i class="fas fa-info-circle"></i>
+                <p>ข้อมูลราคาอัปเดตทุก 60 วินาที โดยใช้ข้อมูลจาก CoinGecko API</p>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        // Initialize chart with empty data
+        let priceChart;
+        let priceData = {
+            labels: [],
+            marketPrices: [],
+            buyPrices: [],
+            sellPrices: []
+        };
+
+        // Initialize the chart
+        function initChart() {
+            const ctx = document.getElementById('priceChart').getContext('2d');
+            
+            priceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [
+                        {
+                            label: 'ราคาตลาด',
+                            data: [],
+                            borderColor: '#0d47a1',
+                            backgroundColor: 'rgba(13, 71, 161, 0.1)',
+                            borderWidth: 2,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'ราคารับซื้อ (-10%)',
+                            data: [],
+                            borderColor: '#b71c1c',
+                            backgroundColor: 'rgba(183, 28, 28, 0.1)',
+                            borderWidth: 2,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'ราคาขาย (+10%)',
+                            data: [],
+                            borderColor: '#1b5e20',
+                            backgroundColor: 'rgba(27, 94, 32, 0.1)',
+                            borderWidth: 2,
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            beginAtZero: false,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString('th-TH') + ' ฿';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.parsed.y.toLocaleString('th-TH') + ' ฿';
+                                }
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    }
+                }
+            });
+        }
+
+        // Format price for display
+        function formatPrice(price) {
+            return price.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ฿';
+        }
+
+        // Format current time
+        function formatTime(date) {
+            return date.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        }
+
+        // Fetch price data from CoinGecko API
+        async function fetchPriceData() {
+            try {
+                // Note: CoinGecko API might not have BRIL token, so we're using Bitcoin as an example
+                // Replace 'bitcoin' with 'brilliant-crypto-token' if it exists in CoinGecko
+                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=brilliant-crypto-token&vs_currencies=thb&include_last_updated_at=true');
+                const data = await response.json();
+
+                const marketPrice = data["brilliant-crypto-token"].thb;
+                const buyPrice = marketPrice * 0.9;  // 10% less than market price
+                const sellPrice = marketPrice * 1.1; // 10% more than market price
+                const lastUpdated = new Date();
+                
+                // Update price displays
+                document.getElementById('market-price').textContent = formatPrice(marketPrice);
+                document.getElementById('buy-price').textContent = formatPrice(buyPrice);
+                document.getElementById('sell-price').textContent = formatPrice(sellPrice);
+                document.getElementById('last-updated').textContent = formatTime(lastUpdated);
+                
+                // Update chart data
+                updateChartData(lastUpdated, marketPrice, buyPrice, sellPrice);
+                
+                return true;
+            } catch (error) {
+                console.error('Error fetching price data:', error);
+                document.getElementById('last-updated').textContent = 'เกิดข้อผิดพลาด! กำลังลองใหม่...';
+                return false;
+            }
+        }
+
+        // Update chart with new data
+        function updateChartData(time, marketPrice, buyPrice, sellPrice) {
+            const timeLabel = formatTime(time);
+            
+            // Add new data
+            priceData.labels.push(timeLabel);
+            priceData.marketPrices.push(marketPrice);
+            priceData.buyPrices.push(buyPrice);
+            priceData.sellPrices.push(sellPrice);
+            
+            // Keep only the last 10 data points for better visualization
+            if (priceData.labels.length > 10) {
+                priceData.labels.shift();
+                priceData.marketPrices.shift();
+                priceData.buyPrices.shift();
+                priceData.sellPrices.shift();
+            }
+            
+            // Update chart
+            priceChart.data.labels = priceData.labels;
+            priceChart.data.datasets[0].data = priceData.marketPrices;
+            priceChart.data.datasets[1].data = priceData.buyPrices;
+            priceChart.data.datasets[2].data = priceData.sellPrices;
+            priceChart.update();
+        }
+
+        // Initialize and start data fetching
+        document.addEventListener('DOMContentLoaded', async () => {
+            initChart();
+            
+            // Fetch initial data
+            await fetchPriceData();
+            
+            // Set up interval to fetch data every 60 seconds
+            setInterval(async () => {
+                await fetchPriceData();
+            }, 60000);
+        });
+    </script>
+</body>
+</html>
